@@ -250,6 +250,12 @@ class PocketBookPro912(PocketBook):
     id = 'pocketbookpro912'
     output_profile = 'pocketbook_pro_912'
 
+class PocketBookColorLux(PocketBook):
+
+    name = 'PocketBook Color Lux'
+    id = 'pocketbookcolorlux'
+    output_profile = 'pocketbook_color_lux'
+    supports_color = True
 
 class iPhone(Device):
 

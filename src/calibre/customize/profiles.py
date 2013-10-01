@@ -789,6 +789,17 @@ class PocketBookPro912Output(OutputProfile):
     dpi                       = 155.0
     comic_screen_size         = screen_size
 
+class PocketBookColorLuxOutput(OutputProfile):
+
+    author = 'Chris Lockfort'
+    name = 'PocketBook Color Lux'
+    short_name = 'pocketbook_color_lux'
+    description = _('This profile is intended for the PocketBook Color Lux.')
+    
+    screen_size               = (600, 800)
+    dpi                       = 125.0
+    comic_screen_size         = screen_size
+
 output_profiles = [OutputProfile, SonyReaderOutput, SonyReader300Output,
         SonyReader900Output, MSReaderOutput, MobipocketOutput, HanlinV3Output,
         HanlinV5Output, CybookG3Output, CybookOpusOutput, KindleOutput,
@@ -796,6 +807,7 @@ output_profiles = [OutputProfile, SonyReaderOutput, SonyReader300Output,
         SonyReaderLandscapeOutput, KindleDXOutput, IlliadOutput, NookHD,
         IRexDR1000Output, IRexDR800Output, JetBook5Output, NookOutput,
         BambookOutput, NookColorOutput, PocketBook900Output, PocketBookPro912Output,
-        GenericEink, GenericEinkLarge, KindleFireOutput, KindlePaperWhiteOutput]
+        PocketBookColorLuxOutput, GenericEink, GenericEinkLarge, KindleFireOutput,
+        KindlePaperWhiteOutput]
 
 output_profiles.sort(cmp=lambda x,y:cmp(x.name.lower(), y.name.lower()))
