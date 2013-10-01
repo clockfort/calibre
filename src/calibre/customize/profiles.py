@@ -187,6 +187,7 @@ class IRexDR1000Input(InputProfile):
     dpi                       = 160
     fbase                     = 16
     fsizes                    = [12, 14, 16, 18, 20, 22, 24]
+    large_screen              = True
 
 class IRexDR800Input(InputProfile):
 
@@ -238,6 +239,9 @@ class OutputProfile(Plugin):
     #: The image size for comics
     comic_screen_size = (584, 754)
 
+    #: If the device supports color. Currently only used for comics conversion.
+    supports_color = False
+
     #: If True the MOBI renderer on the device supports MOBI indexing
     supports_mobi_indexing = False
 
@@ -268,6 +272,19 @@ class OutputProfile(Plugin):
         from xml.sax.saxutils import escape
         return escape(', '.join(tags))
 
+
+class Smartphone(OutputProfile):
+    
+    name = 'Smartphone'
+    short_name = 'smartphone'
+    supports_color = True
+
+class Android(OutputProfile):
+    
+    name = 'Android'
+    short_name = 'android'
+    supports_color = True
+
 class iPadOutput(OutputProfile):
 
     name = 'iPad'
@@ -277,6 +294,9 @@ class iPadOutput(OutputProfile):
     screen_size = (768, 1024)
     comic_screen_size = (768, 1024)
     dpi = 132.0
+    supports_color = True
+    large_screen = True
+
     extra_css_modules = [
         {
             'name':'webkit',
@@ -444,6 +464,7 @@ class TabletOutput(iPadOutput):
 
     screen_size = (10000, 10000)
     comic_screen_size = (10000, 10000)
+    supports_color            = True
 
 class SamsungGalaxy(TabletOutput):
     name = 'Samsung Galaxy'
@@ -523,6 +544,7 @@ class GenericEinkLarge(GenericEink):
 
     screen_size               = (600, 999)
     comic_screen_size = screen_size
+    large_screen = True
 
 class JetBook5Output(OutputProfile):
 
@@ -650,6 +672,7 @@ class KindleDXOutput(OutputProfile):
     dpi                       = 150.0
     comic_screen_size = (771, 1116)
     #comic_screen_size         = (741, 1022)
+    large_screen              = True
     supports_mobi_indexing = True
     periodical_date_in_title = False
     empty_ratings_char = u'\u2606'
@@ -681,6 +704,7 @@ class KindleFireOutput(KindleDXOutput):
     screen_size               = (570, 1016)
     dpi                       = 169.0
     comic_screen_size = (570, 1016)
+    supports_color            = True
 
     @classmethod
     def tags_to_string(cls, tags):
@@ -750,6 +774,7 @@ class NookColorOutput(NookOutput):
     screen_size               = (600, 900)
     comic_screen_size         = (594, 900)
     dpi                       = 169
+    supports_color            = True
 
 class BambookOutput(OutputProfile):
 
@@ -776,6 +801,7 @@ class PocketBook900Output(OutputProfile):
     screen_size               = (810, 1180)
     dpi                       = 150.0
     comic_screen_size         = screen_size
+    large_screen              = True
 
 class PocketBookPro912Output(OutputProfile):
 
@@ -788,6 +814,21 @@ class PocketBookPro912Output(OutputProfile):
     screen_size               = (825, 1200)
     dpi                       = 155.0
     comic_screen_size         = screen_size
+    large_screen              = True
+
+class PocketBookColorLuxOutput(OutputProfile):
+
+    author = 'Chris Lockfort'
+    name = 'PocketBook Color Lux'
+    short_name = 'pocketbook_color_lux'
+    description = _('This profile is intended for the PocketBook Color Lux.')
+    
+    screen_size               = (600, 800)
+    dpi                       = 125.0
+    comic_screen_size         = screen_size
+    supports_color            = True
+    colors                    = 4096
+    large_screen              = True
 
 output_profiles = [OutputProfile, SonyReaderOutput, SonyReader300Output,
         SonyReader900Output, MSReaderOutput, MobipocketOutput, HanlinV3Output,
@@ -796,6 +837,7 @@ output_profiles = [OutputProfile, SonyReaderOutput, SonyReader300Output,
         SonyReaderLandscapeOutput, KindleDXOutput, IlliadOutput, NookHD,
         IRexDR1000Output, IRexDR800Output, JetBook5Output, NookOutput,
         BambookOutput, NookColorOutput, PocketBook900Output, PocketBookPro912Output,
-        GenericEink, GenericEinkLarge, KindleFireOutput, KindlePaperWhiteOutput]
+        PocketBookColorLuxOutput, GenericEink, GenericEinkLarge, KindleFireOutput,
+        KindlePaperWhiteOutput]
 
 output_profiles.sort(cmp=lambda x,y:cmp(x.name.lower(), y.name.lower()))
