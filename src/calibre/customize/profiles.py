@@ -187,6 +187,7 @@ class IRexDR1000Input(InputProfile):
     dpi                       = 160
     fbase                     = 16
     fsizes                    = [12, 14, 16, 18, 20, 22, 24]
+    large_screen              = True
 
 class IRexDR800Input(InputProfile):
 
@@ -271,6 +272,19 @@ class OutputProfile(Plugin):
         from xml.sax.saxutils import escape
         return escape(', '.join(tags))
 
+
+class Smartphone(OutputProfile):
+    
+    name = 'Smartphone'
+    short_name = 'smartphone'
+    supports_color = True
+
+class Android(OutputProfile):
+    
+    name = 'Android'
+    short_name = 'android'
+    supports_color = True
+
 class iPadOutput(OutputProfile):
 
     name = 'iPad'
@@ -281,6 +295,7 @@ class iPadOutput(OutputProfile):
     comic_screen_size = (768, 1024)
     dpi = 132.0
     supports_color = True
+    large_screen = True
 
     extra_css_modules = [
         {
@@ -529,6 +544,7 @@ class GenericEinkLarge(GenericEink):
 
     screen_size               = (600, 999)
     comic_screen_size = screen_size
+    large_screen = True
 
 class JetBook5Output(OutputProfile):
 
@@ -656,6 +672,7 @@ class KindleDXOutput(OutputProfile):
     dpi                       = 150.0
     comic_screen_size = (771, 1116)
     #comic_screen_size         = (741, 1022)
+    large_screen              = True
     supports_mobi_indexing = True
     periodical_date_in_title = False
     empty_ratings_char = u'\u2606'
@@ -784,6 +801,7 @@ class PocketBook900Output(OutputProfile):
     screen_size               = (810, 1180)
     dpi                       = 150.0
     comic_screen_size         = screen_size
+    large_screen              = True
 
 class PocketBookPro912Output(OutputProfile):
 
@@ -796,6 +814,7 @@ class PocketBookPro912Output(OutputProfile):
     screen_size               = (825, 1200)
     dpi                       = 155.0
     comic_screen_size         = screen_size
+    large_screen              = True
 
 class PocketBookColorLuxOutput(OutputProfile):
 
@@ -808,6 +827,8 @@ class PocketBookColorLuxOutput(OutputProfile):
     dpi                       = 125.0
     comic_screen_size         = screen_size
     supports_color            = True
+    colors                    = 4096
+    large_screen              = True
 
 output_profiles = [OutputProfile, SonyReaderOutput, SonyReader300Output,
         SonyReader900Output, MSReaderOutput, MobipocketOutput, HanlinV3Output,

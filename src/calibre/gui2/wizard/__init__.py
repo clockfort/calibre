@@ -24,6 +24,7 @@ from calibre.gui2.wizard.finish_ui import Ui_WizardPage as FinishUI
 from calibre.gui2.wizard.kindle_ui import Ui_WizardPage as KindleUI
 from calibre.gui2.wizard.stanza_ui import Ui_WizardPage as StanzaUI
 from calibre.gui2 import min_available_height, available_width
+from calibre.customize.ui import output_profiles
 
 from calibre.utils.config import dynamic, prefs
 from calibre.gui2 import NONE, choose_dir, error_dialog
@@ -41,7 +42,6 @@ class Device(object):
     name = 'Generic e-ink device'
     manufacturer = 'Generic'
     id = 'default'
-    supports_color = False
 
     @classmethod
     def set_output_profile(cls):
@@ -56,28 +56,42 @@ class Device(object):
         if cls.output_format:
             prefs.set('output_format', cls.output_format.lower())
 
+    # Give the user great default settings based on their device.
     @classmethod
     def commit(cls):
         cls.set_output_profile()
         cls.set_output_format()
-        if cls.supports_color or getattr(cls.output_profile, 'supports_color', False):
-            from calibre.ebooks.conversion.config import load_defaults, save_defaults
-            recs = load_defaults('comic_input')
+
+        from calibre.ebooks.conversion.config import load_defaults, save_defaults
+        recs = load_defaults('comic_input')
+
+        output_profile = "No output profile found."
+        for profile in output_profiles():
+            if profile.short_name == cls.output_profile:
+                output_profile = profile
+
+        if getattr(output_profile, 'colors', 0): # Can also refer to grayscale shades
+            recs['colors'] = getattr(output_profile, 'colors')
+
+        if getattr(output_profile, 'supports_color', False):
             recs['dont_grayscale'] = True
-            save_defaults('comic_input', recs)
+        
+        if getattr(output_profile, 'large_screen', False):
+            recs['keep_aspect_ratio'] = True
+
+        save_defaults('comic_input', recs)
 
 class Smartphone(Device):
 
     id = 'smartphone'
     name = 'Smartphone'
-    supports_color = True
+    output_profile = 'smartphone'
 
 class Tablet(Device):
 
     id = 'tablet'
     name = 'iPad like tablet'
     output_profile = 'tablet'
-    supports_color = True
 
 class Kindle(Device):
 
@@ -114,7 +128,6 @@ class KindleFire(KindleDX):
     name = 'Kindle Fire and Fire HD'
     id = 'kindle_fire'
     output_profile = 'kindle_fire'
-    supports_color = True
 
 class KindlePW(Kindle):
     name = 'Kindle PaperWhite'
@@ -191,7 +204,6 @@ class NookColor(Nook):
     id = 'nook_color'
     name = 'Nook Color'
     output_profile = 'nook_color'
-    supports_color = True
 
 class NookTablet(NookColor):
     id = 'nook_tablet'
@@ -243,18 +255,21 @@ class PocketBook900(PocketBook):
     name = 'PocketBook 900'
     id = 'pocketbook900'
     output_profile = 'pocketbook_900'
+    output_format = 'EPUB'
 
 class PocketBookPro912(PocketBook):
 
     name = 'PocketBook Pro 912'
     id = 'pocketbookpro912'
     output_profile = 'pocketbook_pro_912'
+    output_format = 'EPUB'
 
 class PocketBookColorLux(PocketBook):
 
     name = 'PocketBook Color Lux'
     id = 'pocketbookcolorlux'
     output_profile = 'pocketbook_color_lux'
+    output_format = 'EPUB'
 
 class iPhone(Device):
 
@@ -270,7 +285,7 @@ class Android(Device):
     output_format = 'EPUB'
     manufacturer = 'Android'
     id = 'android'
-    supports_color = True
+    output_profile = 'android'
 
     @classmethod
     def commit(cls):
