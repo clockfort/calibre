@@ -60,7 +60,7 @@ class Device(object):
     def commit(cls):
         cls.set_output_profile()
         cls.set_output_format()
-        if cls.supports_color:
+        if cls.supports_color or getattr(cls.output_profile, 'supports_color', False):
             from calibre.ebooks.conversion.config import load_defaults, save_defaults
             recs = load_defaults('comic_input')
             recs['dont_grayscale'] = True
@@ -255,7 +255,6 @@ class PocketBookColorLux(PocketBook):
     name = 'PocketBook Color Lux'
     id = 'pocketbookcolorlux'
     output_profile = 'pocketbook_color_lux'
-    supports_color = True
 
 class iPhone(Device):
 
@@ -263,7 +262,6 @@ class iPhone(Device):
     output_format = 'EPUB'
     manufacturer = 'Apple'
     id = 'iphone'
-    supports_color = True
     output_profile = 'ipad3'
 
 class Android(Device):

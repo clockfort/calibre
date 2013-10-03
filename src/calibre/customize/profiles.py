@@ -238,6 +238,9 @@ class OutputProfile(Plugin):
     #: The image size for comics
     comic_screen_size = (584, 754)
 
+    #: If the device supports color. Currently only used for comics conversion.
+    supports_color = False
+
     #: If True the MOBI renderer on the device supports MOBI indexing
     supports_mobi_indexing = False
 
@@ -277,6 +280,8 @@ class iPadOutput(OutputProfile):
     screen_size = (768, 1024)
     comic_screen_size = (768, 1024)
     dpi = 132.0
+    supports_color = True
+
     extra_css_modules = [
         {
             'name':'webkit',
@@ -444,6 +449,7 @@ class TabletOutput(iPadOutput):
 
     screen_size = (10000, 10000)
     comic_screen_size = (10000, 10000)
+    supports_color            = True
 
 class SamsungGalaxy(TabletOutput):
     name = 'Samsung Galaxy'
@@ -681,6 +687,7 @@ class KindleFireOutput(KindleDXOutput):
     screen_size               = (570, 1016)
     dpi                       = 169.0
     comic_screen_size = (570, 1016)
+    supports_color            = True
 
     @classmethod
     def tags_to_string(cls, tags):
@@ -750,6 +757,7 @@ class NookColorOutput(NookOutput):
     screen_size               = (600, 900)
     comic_screen_size         = (594, 900)
     dpi                       = 169
+    supports_color            = True
 
 class BambookOutput(OutputProfile):
 
@@ -799,6 +807,7 @@ class PocketBookColorLuxOutput(OutputProfile):
     screen_size               = (600, 800)
     dpi                       = 125.0
     comic_screen_size         = screen_size
+    supports_color            = True
 
 output_profiles = [OutputProfile, SonyReaderOutput, SonyReader300Output,
         SonyReader900Output, MSReaderOutput, MobipocketOutput, HanlinV3Output,
